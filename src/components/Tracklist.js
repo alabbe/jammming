@@ -3,14 +3,14 @@ import Track from "./Track";
 
 function Tracklist(props) {
 
-  const results = props.results.map(song => <Track track={song} />);
+  const results = props.results.map(song => <li><Track track={song} /></li>);
 
   return (
-    <>
-      <div>
+    <div>
+      <ul>
         {results}
-      </div>
-    </>
+      </ul>
+    </div>
   );
 }
 

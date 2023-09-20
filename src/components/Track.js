@@ -2,14 +2,12 @@ import React from "react";
 
 function Track(props) {
   return (
-    <>
-      <ul key={props.track.id}>
-        <li>Song's name: {props.track.name}</li>
-        <li>Artist:  {props.track.artist}</li>
-        <li>Album:  {props.track.album}</li>
-        <li><button>Add to playlist</button></li>
-      </ul>
-    </>
+    <div key={props.track.id}>
+      <div>Song's name: {props.track.name}</div>
+      <div>Artist: {props.track.artist}</div>
+      <div>Album: {props.track.album}</div>
+      <button>Add to playlist</button>div
+    </div>
   );
 }
 
