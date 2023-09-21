@@ -1,0 +1,37 @@
+.Track {
+    display: flex;
+    align-items: center;
+    background-color: #E0DDCF;
+
+    width: 600px;
+    padding: 1rem;
+    justify-content: space-between;
+
+    border-radius: 0.25rem;
+
+}
+
+.SongData {
+    display: flex;
+    flex-direction: column;
+    color: #534B52;
+    line-height: 130%;
+}
+
+.SongData span {
+    font-weight: 600;
+}
+
+.SongActions {
+    display: flex;
+}
+
+.SongActions button {
+    height: 2rem;
+    border: 0.5px solid #534B52;
+    border-radius: 0;
+    padding: 0 1rem;
+    color: #534B52;
+    font-weight: 300;
+    font-size: 0.75rem;
+}

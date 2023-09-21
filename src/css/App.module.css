@@ -1,0 +1,29 @@
+.content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    flex-direction: column;
+    max-width: 1280px;
+    margin: auto;
+    width: 100%;
+}
+
+.header {
+    background-color: #2D232E;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    color: #F1F0EA;
+}
+
+.hero {
+    height: 200px;
+    background-color: #534B52;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}

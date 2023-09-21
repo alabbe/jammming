@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import SearchBar from './components/SearchBar';
 import SearchResults from './components/SearchResults';
+import styles from "./css/App.module.css";
 
 const SONGS = [
   {
@@ -41,10 +42,18 @@ function App() {
 
 
   return (
-    <div className="App">
-      <h1>Jammming</h1>
-      <SearchBar onSubmit={handleOnSubmit} />
-      <SearchResults results={results} />
+    <div className={styles.content}>
+      <div className={styles.header}>
+        <h1>Jammming</h1>
+      </div>
+      <div className={styles.content}>
+        <div className={styles.hero}>
+          <SearchBar onSubmit={handleOnSubmit} />
+        </div>
+      </div>
+      <div className={styles.content}>
+        <SearchResults results={results} />
+      </div>
     </div>
   );
 }

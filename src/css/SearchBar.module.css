@@ -1,0 +1,49 @@
+.SearchBar {
+    display: flex;
+    width: 320px;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    justify-content: space-around;
+}
+
+.SearchForm {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+}
+
+.Header {
+    display: flex;
+}
+
+.Inputs {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.SearchForm label {
+    display: block;
+    margin-bottom: 0.75rem;
+    color: #E0DDCF;
+    font-weight: 500;
+}
+
+.Inputs input {
+    width: 12rem;
+    height: 1.5rem;
+    margin-right: 1rem;
+    background-color: #F1F0EA;
+    border: none;
+}
+
+.Inputs button {
+    width: 7rem;
+    height: 1.7rem;
+    background-color: #E0DDCF;
+    color: #2D232E;
+    border: none;
+    font-weight: 700;
+}
