@@ -32,13 +32,18 @@ const SONGS = [
 function App() {
 
   const [request, setRequest] = useState("");
-  const [results, setResults] = useState(SONGS);
+  const [results, setResults] = useState([]);
+
+  const handleOnSubmit = (event) => {
+    event.preventDefault();
+    setResults(SONGS);
+  }
 
 
   return (
     <div className="App">
       <h1>Jammming</h1>
-      <SearchBar />
+      <SearchBar onSubmit={handleOnSubmit} />
       <SearchResults results={results} />
     </div>
   );

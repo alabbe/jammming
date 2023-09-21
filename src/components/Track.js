@@ -6,7 +6,7 @@ function Track(props) {
       <div>Song's name: {props.track.name}</div>
       <div>Artist: {props.track.artist}</div>
       <div>Album: {props.track.album}</div>
-      <button>Add to playlist</button>div
+      <button>Add to playlist</button>
     </div>
   );
 }
