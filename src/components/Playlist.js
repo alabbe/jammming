@@ -7,7 +7,7 @@ function Playlist(props) {
     let playlist = "";
     // console.log("rendering Playlist", props);
     if (props.playlist.length > 0) {
-        playlist = <Tracklist results={props.playlist} />;
+        playlist = <Tracklist results={props.playlist} onClick={props.onClick} origin={props.origin} />;
     } else {
         playlist = "Your playlist is empty.";
     }

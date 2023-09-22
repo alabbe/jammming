@@ -2,6 +2,14 @@ import React from "react";
 import styles from "../css/Track.module.css";
 
 function Track(props) {
+
+  let button = "";
+  if (props.origin === "tracklist") {
+    button = <button onClick={props.onClick} value={props.track.id}>Add to playlist</button>
+  } else {
+    button =  <button onClick={props.onClick} value={props.track.id}>Remove from playlist</button>
+  }
+
   return (
     <div className={styles.Track}>
       <div className={styles.SongData}>      
@@ -9,8 +17,8 @@ function Track(props) {
         <div><span>Artist:</span> {props.track.artist}</div>
         <div><span>Album:</span> {props.track.album}</div>
       </div>
-      <div className={styles.SongActions}>      
-        <button onClick={props.onClick} value={props.track.id}>Add to playlist</button>
+      <div className={styles.SongActions}>
+       {button}
       </div>
     </div>
   );

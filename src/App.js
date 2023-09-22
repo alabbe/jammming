@@ -42,7 +42,7 @@ function App() {
     setResults(SONGS);
   }
 
-  const handleOnClick = (event) => {
+  const handleOnClickAdd = (event) => {
     let selectedTrackId = event.target.value;
 
     setPlaylist((prev) => {
@@ -53,6 +53,12 @@ function App() {
       return prev;
     });
   }
+
+  const handleOnClickRemove = (event) => {
+    let selectedTrackId = event.target.value;
+    console.log("remove item:", playlist[selectedTrackId]);
+    setPlaylist((prev) => prev.filter((item) => item.id != selectedTrackId));
+  };
 
 
   return (
@@ -66,10 +72,10 @@ function App() {
         </div>
       </div>
       <div className={styles.content}>
-        <SearchResults results={results} onClick={handleOnClick} />
+        <SearchResults results={results} onClick={handleOnClickAdd} origin="tracklist"/>
       </div>
       <div className={styles.content}>
-        <Playlist playlist={playlist} />
+        <Playlist playlist={playlist} onClick={handleOnClickRemove} origin="playlist"/>
       </div>
     </div>
   );
