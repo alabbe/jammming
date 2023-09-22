@@ -6,7 +6,7 @@ function SearchResults(props) {
 
     let content = "";
     if (props.results.length > 0) {
-        content =  <Tracklist results={props.results}/>;
+        content =  <Tracklist results={props.results} onClick={props.onClick} />;
     } else {
         content = "No results to display for now.";
     }

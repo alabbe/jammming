@@ -4,7 +4,7 @@ import styles from "../css/Tracklist.module.css"
 
 function Tracklist(props) {
 
-  const results = props.results.map(song => <Track track={song} />);
+  const results = props.results.map(song => <Track track={song} onClick={props.onClick} key={song.id} />);
 
   return (
     <div className={styles.Tracklist}>

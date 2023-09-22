@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import SearchBar from './components/SearchBar';
 import SearchResults from './components/SearchResults';
 import styles from "./css/App.module.css";
+import Playlist from './components/Playlist';
 
 const SONGS = [
   {
@@ -34,10 +35,23 @@ function App() {
 
   const [request, setRequest] = useState("");
   const [results, setResults] = useState([]);
+  const [playlist, setPlaylist] = useState([]);
 
   const handleOnSubmit = (event) => {
     event.preventDefault();
     setResults(SONGS);
+  }
+
+  const handleOnClick = (event) => {
+    let selectedTrackId = event.target.value;
+
+    setPlaylist((prev) => {
+      let searchArray = prev.filter((item) =>item.id === results[selectedTrackId].id);
+      if (searchArray.length === 0) {
+        return [...prev, results[selectedTrackId]];
+      }
+      return prev;
+    });
   }
 
 
@@ -52,7 +66,10 @@ function App() {
         </div>
       </div>
       <div className={styles.content}>
-        <SearchResults results={results} />
+        <SearchResults results={results} onClick={handleOnClick} />
+      </div>
+      <div className={styles.content}>
+        <Playlist playlist={playlist} />
       </div>
     </div>
   );

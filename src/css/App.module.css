@@ -27,3 +27,12 @@
     align-items: center;
     justify-content: center;
 }
+
+h2 {
+    color: #534B52;
+}
+
+button:hover {
+    background-color: #C3BEA2;
+    cursor: pointer;
+}

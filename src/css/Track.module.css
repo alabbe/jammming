@@ -35,3 +35,7 @@
     font-weight: 300;
     font-size: 0.75rem;
 }
+
+.SongActions button:hover {
+    background-color: hsl(49, 22, 45);
+}
