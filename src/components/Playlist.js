@@ -9,12 +9,12 @@ function Playlist(props) {
     if (props.playlist.length > 0) {
         playlist = <Tracklist results={props.playlist} onClick={props.onClick} origin={props.origin} />;
     } else {
-        playlist = "Your playlist is empty.";
+        playlist = <span>Your playlist is empty.</span>;
     }
 
     return (
         <div className={styles.Playlist}>
-            <h2>Your custom playlist</h2>
+            <input type="Text" value={props.name} onChange={props.onChange}></input>
             {playlist}
         </div>
     );

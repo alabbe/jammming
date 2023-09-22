@@ -36,6 +36,7 @@ function App() {
   const [request, setRequest] = useState("");
   const [results, setResults] = useState([]);
   const [playlist, setPlaylist] = useState([]);
+  const [playListName, setPlaylistName] = useState("Your custom playlist's name");
 
   const handleOnSubmit = (event) => {
     event.preventDefault();
@@ -60,6 +61,9 @@ function App() {
     setPlaylist((prev) => prev.filter((item) => item.id != selectedTrackId));
   };
 
+  const handleOnChangePlaylistName = (event) => {
+    setPlaylistName(event.target.value);
+  };
 
   return (
     <div className={styles.content}>
@@ -75,7 +79,7 @@ function App() {
         <SearchResults results={results} onClick={handleOnClickAdd} origin="tracklist"/>
       </div>
       <div className={styles.content}>
-        <Playlist playlist={playlist} onClick={handleOnClickRemove} origin="playlist"/>
+        <Playlist playlist={playlist} onClick={handleOnClickRemove} onChange={handleOnChangePlaylistName} origin="playlist" name={playListName}/>
       </div>
     </div>
   );
