@@ -100,13 +100,13 @@ function App() {
     setSearchQuery(event.target.value);
   }
 
-  const handleOnClickAdd = (event) => {
-    let selectedTrackId = event.target.value;
+  const handleOnClickAdd = (event) => { 
+    let track = results.find((item) => item.id === event.target.value);
 
     setPlaylist((prev) => {
-      let searchArray = prev.filter((item) => item.id === results[selectedTrackId].id);
+      let searchArray = prev.filter((item) => item.id === track.id);
       if (searchArray.length === 0) {
-        return [...prev, results[selectedTrackId]];
+        return [...prev, track];
       }
       return prev;
     });
