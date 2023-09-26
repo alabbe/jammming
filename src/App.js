@@ -45,18 +45,22 @@ function App() {
   const [spotifyAccessToken, setSpotifyAccessToken] = useState(null);
   const [expirationTime, setExpirationTime] = useState(null);
 
-  const token = Spotify.getAccessTokenFromCurrentPath();
 
-  if (token) {
-    //console.log("got token from url", token);
-    console.log("current token:", spotifyAccessToken);
-    console.log("current expirationTime", expirationTime);
-    if (token != spotifyAccessToken && !expirationTime) {
-      console.log("got new token from url", token);
-      setSpotifyAccessToken(token);
-      setExpirationTime(Date.now() + 3000); // a remplacer par get expiration time
+  useEffect(() => {
+    const token = Spotify.getAccessTokenFromCurrentPath();
+
+    if (token) {
+      //console.log("got token from url", token);
+      console.log("current token:", spotifyAccessToken);
+      console.log("current expirationTime", expirationTime);
+      if (token != spotifyAccessToken && !expirationTime) {
+        console.log("got new token from url", token);
+        setSpotifyAccessToken(token);
+        setExpirationTime(Date.now() + Spotify.getExpirationTimeFromCurrentPath()); // a remplacer par get expiration time
+      }
     }
-  }
+  }, []);
+
 
   const isTimeout = () => {
     const currentTime = Date.now();
