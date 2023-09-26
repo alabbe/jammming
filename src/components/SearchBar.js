@@ -9,7 +9,7 @@ function SearchBar(props) {
           <label htmlFor="search">Search song</label>
         </div>
         <div className={styles.Inputs}>
-          <input type="text" id="search"></input>
+          <input type="text" id="search" onChange={props.onChange}></input>
           <button type="submit">Search</button>
         </div>
       </form>

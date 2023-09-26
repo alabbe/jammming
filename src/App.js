@@ -6,7 +6,7 @@ import Playlist from './components/Playlist';
 import Spotify from './util/Spotify';
 import Login from './components/Login';
 
-const SONGS = [
+/* const SONGS = [
   {
     id: 0,
     name: 'song 1',
@@ -35,10 +35,11 @@ const SONGS = [
     album: 'album artist 4',
     uri: 'spotify:track:1OJNE7ER48x17Nj2zyI6VY'
   },
-];
+]; */
 
 function App() {
 
+  const [searchQuery, setSearchQuery] = useState("");
   const [results, setResults] = useState([]);
   const [playlist, setPlaylist] = useState([]);
   const [playListName, setPlaylistName] = useState("Your custom playlist's name");
@@ -48,11 +49,7 @@ function App() {
 
   useEffect(() => {
     const token = Spotify.getAccessTokenFromCurrentPath();
-
     if (token) {
-      //console.log("got token from url", token);
-      console.log("current token:", spotifyAccessToken);
-      console.log("current expirationTime", expirationTime);
       if (token != spotifyAccessToken && !expirationTime) {
         console.log("got new token from url", token);
         setSpotifyAccessToken(token);
@@ -65,8 +62,8 @@ function App() {
   const isTimeout = () => {
     const currentTime = Date.now();
     if (expirationTime) {
-      console.log("initial expiration time: ", expirationTime);
-      console.log("current time: ", currentTime);
+      /* console.log("initial expiration time: ", expirationTime);
+      console.log("current time: ", currentTime); */
       if (expirationTime <= currentTime) {
         console.log("Time out!");
         setSpotifyAccessToken(null);
@@ -77,11 +74,30 @@ function App() {
     }
   }
 
-  const handleOnSubmitSearch = (event) => {
+  const handleOnSubmitSearch = async (event) => {
     event.preventDefault();
-    if (!isTimeout()) {
-      setResults(SONGS);
+    if (!isTimeout() && searchQuery) {
+      console.log("search query: ", searchQuery);
+      let jsonTracks = Spotify.search(searchQuery, spotifyAccessToken);
+      let searchResults;
+      jsonTracks.then((json) => {
+        if (!json.tracks) {
+          searchResults = [];
+        }
+        searchResults = json.tracks.items.map(track => ({
+          id: track.id,
+          name: track.name,
+          artist: track.artists[0].name,
+          album: track.album.name,
+          uri: track.uri
+        }));
+        setResults([...searchResults]);
+      });
     }
+  }
+
+  const handleOnChangeSearch = (event) => {
+    setSearchQuery(event.target.value);
   }
 
   const handleOnClickAdd = (event) => {
@@ -118,7 +134,7 @@ function App() {
       </div>
       <div className={styles.content}>
         <div className={styles.hero}>
-          <SearchBar onSubmit={handleOnSubmitSearch} />
+          <SearchBar onSubmit={handleOnSubmitSearch} onChange={handleOnChangeSearch}/>
         </div>
       </div>
       <div className={styles.content}>
