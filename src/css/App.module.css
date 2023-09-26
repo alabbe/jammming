@@ -19,13 +19,22 @@
 }
 
 .hero {
-    height: 200px;
+    height: 150px;
     background-color: #534B52;
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+.tracklist {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    gap: 1rem;
+    margin: 3rem 0;
 }
 
 h2 {

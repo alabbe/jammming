@@ -1,10 +1,8 @@
 .Track {
     display: flex;
-    align-items: center;
     background-color: #E0DDCF;
-
-    width: 600px;
-    padding: 1rem;
+    width: 250px;
+    padding: 0.5rem;
     justify-content: space-between;
 
     border-radius: 0.25rem;

@@ -13,7 +13,9 @@ function SearchResults(props) {
 
     return (
         <div className={styles.SearchResults}>
+            <div className={styles.header}>
             <h2>Search results</h2>
+            </div>
             {content}
         </div>
     );    

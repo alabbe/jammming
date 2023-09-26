@@ -5,9 +5,9 @@ function Track(props) {
 
   let button = "";
   if (props.origin === "tracklist") {
-    button = <button onClick={props.onClick} value={props.track.id}>Add to playlist</button>
+    button = <button onClick={props.onClick} value={props.track.id}>Add</button>
   } else {
-    button =  <button onClick={props.onClick} value={props.track.id}>Remove from playlist</button>
+    button =  <button onClick={props.onClick} value={props.track.id}>Remove</button>
   }
 
   return (

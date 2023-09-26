@@ -42,7 +42,7 @@ function App() {
   const [searchQuery, setSearchQuery] = useState("");
   const [results, setResults] = useState([]);
   const [playlist, setPlaylist] = useState([]);
-  const [playListName, setPlaylistName] = useState("Your custom playlist's name");
+  const [playListName, setPlaylistName] = useState("");
   const [spotifyAccessToken, setSpotifyAccessToken] = useState(null);
   const [expirationTime, setExpirationTime] = useState(null);
 
@@ -100,7 +100,7 @@ function App() {
     setSearchQuery(event.target.value);
   }
 
-  const handleOnClickAdd = (event) => { 
+  const handleOnClickAdd = (event) => {
     let track = results.find((item) => item.id === event.target.value);
 
     setPlaylist((prev) => {
@@ -134,14 +134,14 @@ function App() {
       </div>
       <div className={styles.content}>
         <div className={styles.hero}>
-          <SearchBar onSubmit={handleOnSubmitSearch} onChange={handleOnChangeSearch}/>
+          <SearchBar onSubmit={handleOnSubmitSearch} onChange={handleOnChangeSearch} />
         </div>
       </div>
       <div className={styles.content}>
-        <SearchResults results={results} onClick={handleOnClickAdd} origin="tracklist" />
-      </div>
-      <div className={styles.content}>
-        <Playlist playlist={playlist} onClick={handleOnClickRemove} onChange={handleOnChangePlaylistName} origin="playlist" name={playListName} />
+        <div className={styles.tracklist}>
+          <SearchResults results={results} onClick={handleOnClickAdd} origin="tracklist" />
+          <Playlist playlist={playlist} onClick={handleOnClickRemove} onChange={handleOnChangePlaylistName} origin="playlist" name={playListName} />
+        </div>
       </div>
     </div>
   );
