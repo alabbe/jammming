@@ -6,37 +6,6 @@ import Playlist from './components/Playlist';
 import Spotify from './util/Spotify';
 import Login from './components/Login';
 
-/* const SONGS = [
-  {
-    id: 0,
-    name: 'song 1',
-    artist: 'artist 1',
-    album: 'album artist 1',
-    uri: 'spotify:track:1E9HERI5XdI9ZZIgCw51QS'
-  },
-  {
-    id: 1,
-    name: 'song 2',
-    artist: 'artist 2',
-    album: 'album artist 2',
-    uri: 'spotify:track:5yiMnljXWHnI9ToPoXbpPZ'
-  },
-  {
-    id: 2,
-    name: 'song 3',
-    artist: 'artist 3',
-    album: 'album artist 3',
-    uri: 'spotify:track:7IXvqtnsBbJM7IEDQetR9b'
-  },
-  {
-    id: 3,
-    name: 'song 4',
-    artist: 'artist 4',
-    album: 'album artist 4',
-    uri: 'spotify:track:1OJNE7ER48x17Nj2zyI6VY'
-  },
-]; */
-
 function App() {
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -94,7 +63,7 @@ function App() {
         setResults([...searchResults]);
       });
     }
-  }
+  };
 
   const handleOnChangeSearch = (event) => {
     setSearchQuery(event.target.value);
@@ -110,11 +79,10 @@ function App() {
       }
       return prev;
     });
-  }
+  };
 
   const handleOnClickRemove = (event) => {
     let selectedTrackId = event.target.value;
-    console.log("remove item:", playlist[selectedTrackId]);
     setPlaylist((prev) => prev.filter((item) => item.id != selectedTrackId));
   };
 
@@ -124,7 +92,34 @@ function App() {
 
   const handleAuthorizeSpotify = () => {
     Spotify.connectToSpotify();
-  }
+  };
+
+
+  const getTracksURI = () => {
+    let uris = [];
+    if (playlist) {
+      playlist.forEach((item) => uris.push(item.uri));
+    }
+    return uris;
+  };
+
+  const handleOnSavePlaylist = async () => {
+    if (playListName && !isTimeout()) {
+      let response = Spotify.getUserId(spotifyAccessToken);
+      response.then((json) => {
+        if(json.id) {
+          return Spotify.createPlaylist(playListName, json.id, spotifyAccessToken);
+        }
+      }).then((json) => {
+          if (json.id) {
+            let tracksUris = getTracksURI();
+            if (tracksUris.length > 0) {
+              return Spotify.savePlaylist(json.id, tracksUris, spotifyAccessToken);
+            }
+          }
+      });
+    }
+  };
 
   return (
     <div className={styles.content}>
@@ -139,8 +134,8 @@ function App() {
       </div>
       <div className={styles.content}>
         <div className={styles.tracklist}>
-          <SearchResults results={results} onClick={handleOnClickAdd} origin="tracklist" />
-          <Playlist playlist={playlist} onClick={handleOnClickRemove} onChange={handleOnChangePlaylistName} origin="playlist" name={playListName} />
+          <SearchResults results={results} onAdd={handleOnClickAdd} origin="tracklist" />
+          <Playlist playlist={playlist} onRemove={handleOnClickRemove} onChange={handleOnChangePlaylistName} onSave={handleOnSavePlaylist} origin="playlist" name={playListName} />
         </div>
       </div>
     </div>

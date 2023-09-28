@@ -6,19 +6,21 @@ function SearchResults(props) {
 
     let content = "";
     if (props.results && props.results.length > 0) {
-        content =  <Tracklist results={props.results} onClick={props.onClick} origin={props.origin}/>;
+        content = <Tracklist results={props.results} onClick={props.onAdd} origin={props.origin} />;
     } else {
         content = "No results to display for now.";
     }
 
     return (
-        <div className={styles.SearchResults}>
+        <div className={styles.listContainer}>
             <div className={styles.header}>
-            <h2>Search results</h2>
+                <h2>Search results</h2>
             </div>
-            {content}
+            <div className={styles.SearchResults}>
+                {content}
+            </div>
         </div>
-    );    
+    );
 }
 
 export default SearchResults;

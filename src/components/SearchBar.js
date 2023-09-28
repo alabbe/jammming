@@ -10,7 +10,7 @@ function SearchBar(props) {
         </div>
         <div className={styles.Inputs}>
           <input type="text" id="search" onChange={props.onChange}></input>
-          <button type="submit">Search</button>
+          <button type="submit" className={styles.primaryButton}>Search</button>
         </div>
       </form>
     </div>
