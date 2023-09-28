@@ -1,6 +1,7 @@
 import React from "react";
 import Tracklist from "./Tracklist";
-import styles from "../css/Playlist.module.css"
+import commonStyles from "../css/Common.module.css";
+import styles from "../css/Playlist.module.css";
 
 function Playlist(props) {
 
@@ -15,8 +16,8 @@ function Playlist(props) {
   return (
     <div className={styles.listContainer}>
       <div className={styles.header}>
-        <input type="Text" value={props.name} onChange={props.onChange} placeholder="Enter your playlist name"></input>
-        <button className={styles.secondaryButton} onClick={props.onSave}>Save to Spotify</button>
+        <input type="Text" value={props.name} onChange={props.onChange} placeholder="Enter your playlist name" className={styles.playlistName}></input>
+        <button className={commonStyles.secondaryButton} onClick={props.onSave}>Save to Spotify</button>
       </div>
       <div className={styles.Playlist}>
         {playlist}

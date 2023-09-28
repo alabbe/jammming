@@ -9,7 +9,7 @@
     padding: 1rem 0;
 }
 
-input {
+.playlistName {
     border-bottom: 1px solid #474448;
 }
 
@@ -25,19 +25,4 @@ input {
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-
-.secondaryButton {
-    height: 2rem;
-    border: 0.5px solid #534B52;
-    border-radius: 0;
-    padding: 0 1rem;
-    color: #534B52;
-    font-weight: 300;
-    font-size: 0.75rem;
-}
-
-.secondaryButton:hover {
-    background-color: hsl(49, 22, 45);
 }

@@ -1,0 +1,43 @@
+h2 {
+    color: #534B52;
+}
+
+input {
+    width: 12rem;
+    height: 1.5rem;
+    margin-right: 1rem;
+    background-color: #F1F0EA;
+    border: none;
+}
+
+.primaryButton {
+    width: 7rem;
+    height: 1.7rem;
+    background-color: #E0DDCF;
+    color: #2D232E;
+    border: none;
+    font-weight: 700;
+}
+
+
+.primaryButton:hover {
+    background-color: #C3BEA2;
+    cursor: pointer;
+}
+
+
+
+.secondaryButton {
+    height: 2rem;
+    border: 0.5px solid #534B52;
+    border-radius: 0;
+    padding: 0 1rem;
+    color: #534B52;
+    font-weight: 300;
+    font-size: 0.75rem;
+}
+
+.secondaryButton:hover {
+    background-color: hsl(49, 22, 35);
+    cursor: pointer;
+}

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import SearchBar from './components/SearchBar';
 import SearchResults from './components/SearchResults';
-import styles from "./css/App.module.css";
 import Playlist from './components/Playlist';
 import Spotify from './util/Spotify';
 import Login from './components/Login';
+import styles from "./css/App.module.css";
+import commonStyles from "./css/Common.module.css";
 
 function App() {
 
@@ -71,6 +72,7 @@ function App() {
 
   const handleOnClickAdd = (event) => {
     let track = results.find((item) => item.id === event.target.value);
+    const updatedResults = results.filter((item) => item.id !== track.id);
 
     setPlaylist((prev) => {
       let searchArray = prev.filter((item) => item.id === track.id);
@@ -79,11 +81,22 @@ function App() {
       }
       return prev;
     });
+
+    setResults(updatedResults);
   };
 
   const handleOnClickRemove = (event) => {
-    let selectedTrackId = event.target.value;
-    setPlaylist((prev) => prev.filter((item) => item.id != selectedTrackId));
+    let track = playlist.find((item) => item.id === event.target.value);
+    setPlaylist((prev) => prev.filter((item) => item.id != track.id));
+
+    setResults((prev) => {
+      let searchArray = prev.filter((item) => item.id === track.id);
+      if (searchArray.length === 0) {
+        return [...prev, track];
+      }
+      return prev;
+    });
+
   };
 
   const handleOnChangePlaylistName = (event) => {
@@ -107,16 +120,16 @@ function App() {
     if (playListName && !isTimeout()) {
       let response = Spotify.getUserId(spotifyAccessToken);
       response.then((json) => {
-        if(json.id) {
+        if (json.id) {
           return Spotify.createPlaylist(playListName, json.id, spotifyAccessToken);
         }
       }).then((json) => {
-          if (json.id) {
-            let tracksUris = getTracksURI();
-            if (tracksUris.length > 0) {
-              return Spotify.savePlaylist(json.id, tracksUris, spotifyAccessToken);
-            }
+        if (json.id) {
+          let tracksUris = getTracksURI();
+          if (tracksUris.length > 0) {
+            return Spotify.savePlaylist(json.id, tracksUris, spotifyAccessToken);
           }
+        }
       });
     }
   };
@@ -124,7 +137,9 @@ function App() {
   return (
     <div className={styles.content}>
       <div className={styles.header}>
-        <h1>Jammming</h1>
+        <div className={styles.title}>
+          <h1>Jammming</h1>
+        </div>
         <Login isExpired={expirationTime} isAuthorized={spotifyAccessToken} onClick={handleAuthorizeSpotify} />
       </div>
       <div className={styles.content}>

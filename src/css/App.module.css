@@ -12,10 +12,14 @@
 .header {
     background-color: #2D232E;
     display: flex;
-    width: 100%;
-    align-items: center;
-    justify-content: center;
     color: #F1F0EA;
+    position: relative;
+    width: 100%;
+}
+
+.title {
+    text-align: center;
+    flex:1 0 auto;
 }
 
 .hero {
@@ -35,21 +39,4 @@
     width: 100%;
     gap: 1rem;
     margin: 3rem 0;
-}
-
-h2 {
-    color: #534B52;
-}
-
-input {
-    width: 12rem;
-    height: 1.5rem;
-    margin-right: 1rem;
-    background-color: #F1F0EA;
-    border: none;
-}
-
-button:hover {
-    background-color: #C3BEA2;
-    cursor: pointer;
 }

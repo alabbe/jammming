@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "../css/SearchBar.module.css"
+import commonStyles from "../css/Common.module.css";
 
 function SearchBar(props) {
   return (
@@ -10,7 +11,7 @@ function SearchBar(props) {
         </div>
         <div className={styles.Inputs}>
           <input type="text" id="search" onChange={props.onChange}></input>
-          <button type="submit" className={styles.primaryButton}>Search</button>
+          <button type="submit" className={commonStyles.primaryButton}>Search</button>
         </div>
       </form>
     </div>
