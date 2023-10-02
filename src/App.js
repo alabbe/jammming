@@ -5,7 +5,6 @@ import Playlist from './components/Playlist';
 import Spotify from './util/Spotify';
 import Login from './components/Login';
 import styles from "./css/App.module.css";
-import commonStyles from "./css/Common.module.css";
 
 function App() {
 
@@ -20,13 +19,13 @@ function App() {
   useEffect(() => {
     const token = Spotify.getAccessTokenFromCurrentPath();
     if (token) {
-      if (token != spotifyAccessToken && !expirationTime) {
+      if (token !== spotifyAccessToken && !expirationTime) {
         console.log("got new token from url", token);
         setSpotifyAccessToken(token);
-        setExpirationTime(Date.now() + Spotify.getExpirationTimeFromCurrentPath()); // a remplacer par get expiration time
+        setExpirationTime(Date.now() + Spotify.getExpirationTimeFromCurrentPath());
       }
     }
-  }, []);
+  }, [expirationTime, spotifyAccessToken]);
 
 
   const isTimeout = () => {
@@ -87,7 +86,7 @@ function App() {
 
   const handleOnClickRemove = (event) => {
     let track = playlist.find((item) => item.id === event.target.value);
-    setPlaylist((prev) => prev.filter((item) => item.id != track.id));
+    setPlaylist((prev) => prev.filter((item) => item.id !== track.id));
 
     setResults((prev) => {
       let searchArray = prev.filter((item) => item.id === track.id);
