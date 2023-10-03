@@ -17,15 +17,11 @@ function App() {
   useEffect(() => {
     const token = Spotify.getAccessTokenFromCurrentPath();
     if (token) {
-      if (token !== spotifyAccessToken && !expirationTime) {
-        console.log("got new token from url", token);
-        setSpotifyAccessToken(token);
-        setExpirationTime(
-          Date.now() + Spotify.getExpirationTimeFromCurrentPath()
-        );
-      }
+      setSpotifyAccessToken(token);
+      setExpirationTime(
+        Date.now() + Spotify.getExpirationTimeFromCurrentPath()
+      );
     }
-    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
