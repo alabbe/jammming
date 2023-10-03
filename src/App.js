@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import SearchBar from './components/SearchBar';
-import SearchResults from './components/SearchResults';
-import Playlist from './components/Playlist';
-import Spotify from './util/Spotify';
-import Login from './components/Login';
+import React, { useEffect, useState } from "react";
+import SearchBar from "./components/SearchBar";
+import SearchResults from "./components/SearchResults";
+import Playlist from "./components/Playlist";
+import Spotify from "./util/Spotify";
+import Login from "./components/Login";
 import styles from "./css/App.module.css";
 
 function App() {
-
   const [searchQuery, setSearchQuery] = useState("");
   const [results, setResults] = useState([]);
   const [playlist, setPlaylist] = useState([]);
@@ -15,59 +14,58 @@ function App() {
   const [spotifyAccessToken, setSpotifyAccessToken] = useState(null);
   const [expirationTime, setExpirationTime] = useState(null);
 
-
   useEffect(() => {
     const token = Spotify.getAccessTokenFromCurrentPath();
     if (token) {
       if (token !== spotifyAccessToken && !expirationTime) {
         console.log("got new token from url", token);
         setSpotifyAccessToken(token);
-        setExpirationTime(Date.now() + Spotify.getExpirationTimeFromCurrentPath());
+        setExpirationTime(
+          Date.now() + Spotify.getExpirationTimeFromCurrentPath()
+        );
       }
     }
-  }, [expirationTime, spotifyAccessToken]);
+    // eslint-disable-next-line
+  }, []);
 
-
-  const isTimeout = () => {
-    const currentTime = Date.now();
-    if (expirationTime) {
-      /* console.log("initial expiration time: ", expirationTime);
-      console.log("current time: ", currentTime); */
-      if (expirationTime <= currentTime) {
-        console.log("Time out!");
-        setSpotifyAccessToken(null);
-        setExpirationTime(null);
-        return true;
-      }
-      return false;
-    }
-  }
-
-  const handleOnSubmitSearch = async (event) => {
-    event.preventDefault();
-    if (!isTimeout() && searchQuery) {
+  useEffect(() => {
+    if (searchQuery && spotifyAccessToken) {
       console.log("search query: ", searchQuery);
       let jsonTracks = Spotify.search(searchQuery, spotifyAccessToken);
       let searchResults;
       jsonTracks.then((json) => {
-        if (!json.tracks) {
-          searchResults = [];
+        if (json.tracks) {
+          searchResults = json.tracks.items.map((track) => ({
+            id: track.id,
+            name: track.name,
+            artist: track.artists[0].name,
+            album: track.album.name,
+            uri: track.uri,
+          }));
+          setResults([...searchResults]);
+        } else {
+          setResults([]);
         }
-        searchResults = json.tracks.items.map(track => ({
-          id: track.id,
-          name: track.name,
-          artist: track.artists[0].name,
-          album: track.album.name,
-          uri: track.uri
-        }));
-        setResults([...searchResults]);
       });
+    }
+  }, [searchQuery, spotifyAccessToken]);
+
+  const isTimeout = () => {
+    const currentTime = Date.now();
+    if (expirationTime && expirationTime <= currentTime) {
+      console.log("Timed out!");
+      setSpotifyAccessToken(null);
+      setExpirationTime(null);
+      return true;
+    } else {
+      return false;
     }
   };
 
-  const handleOnChangeSearch = (event) => {
-    setSearchQuery(event.target.value);
-  }
+  const handleOnSubmitSearch = async (event) => {
+    event.preventDefault();
+    setSearchQuery(document.getElementById("search").value);
+  };
 
   const handleOnClickAdd = (event) => {
     let track = results.find((item) => item.id === event.target.value);
@@ -95,7 +93,6 @@ function App() {
       }
       return prev;
     });
-
   };
 
   const handleOnChangePlaylistName = (event) => {
@@ -105,7 +102,6 @@ function App() {
   const handleAuthorizeSpotify = () => {
     Spotify.connectToSpotify();
   };
-
 
   const getTracksURI = () => {
     let uris = [];
@@ -118,18 +114,28 @@ function App() {
   const handleOnSavePlaylist = async () => {
     if (playListName && !isTimeout()) {
       let response = Spotify.getUserId(spotifyAccessToken);
-      response.then((json) => {
-        if (json.id) {
-          return Spotify.createPlaylist(playListName, json.id, spotifyAccessToken);
-        }
-      }).then((json) => {
-        if (json.id) {
-          let tracksUris = getTracksURI();
-          if (tracksUris.length > 0) {
-            return Spotify.savePlaylist(json.id, tracksUris, spotifyAccessToken);
+      response
+        .then((json) => {
+          if (json.id) {
+            return Spotify.createPlaylist(
+              playListName,
+              json.id,
+              spotifyAccessToken
+            );
           }
-        }
-      });
+        })
+        .then((json) => {
+          if (json.id) {
+            let tracksUris = getTracksURI();
+            if (tracksUris.length > 0) {
+              return Spotify.savePlaylist(
+                json.id,
+                tracksUris,
+                spotifyAccessToken
+              );
+            }
+          }
+        });
     }
   };
 
@@ -139,17 +145,32 @@ function App() {
         <div className={styles.title}>
           <h1>Jammming</h1>
         </div>
-        <Login isExpired={expirationTime} isAuthorized={spotifyAccessToken} onClick={handleAuthorizeSpotify} />
+        <Login
+          isExpired={expirationTime}
+          isAuthorized={spotifyAccessToken}
+          onClick={handleAuthorizeSpotify}
+        />
       </div>
       <div className={styles.content}>
         <div className={styles.hero}>
-          <SearchBar onSubmit={handleOnSubmitSearch} onChange={handleOnChangeSearch} />
+          <SearchBar onSubmit={handleOnSubmitSearch} />
         </div>
       </div>
       <div className={styles.content}>
         <div className={styles.tracklist}>
-          <SearchResults results={results} onAdd={handleOnClickAdd} origin="tracklist" />
-          <Playlist playlist={playlist} onRemove={handleOnClickRemove} onChange={handleOnChangePlaylistName} onSave={handleOnSavePlaylist} origin="playlist" name={playListName} />
+          <SearchResults
+            results={results}
+            onAdd={handleOnClickAdd}
+            origin="tracklist"
+          />
+          <Playlist
+            playlist={playlist}
+            onRemove={handleOnClickRemove}
+            onChange={handleOnChangePlaylistName}
+            onSave={handleOnSavePlaylist}
+            origin="playlist"
+            name={playListName}
+          />
         </div>
       </div>
     </div>

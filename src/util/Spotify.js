@@ -1,13 +1,12 @@
 const clientId = "7ab319f2b04c4882ade7c4a4ef56322b";
 const redirectUri = "http://localhost:3000/callback";
-const authorizeEndpoint = 'https://accounts.spotify.com/authorize';
+const authorizeEndpoint = "https://accounts.spotify.com/authorize";
 const searchEndpoint = "https://api.spotify.com/v1/search";
 const getProfileEndpoint = "https://api.spotify.com/v1/me";
 const createPlaylistEndpoint = "https://api.spotify.com/v1/users";
 const addTracksEndpoints = "https://api.spotify.com/v1/playlists";
 
 const Spotify = {
-
   connectToSpotify() {
     let url = `${authorizeEndpoint}?client_id=${clientId}&response_type=token&redirect_uri=${redirectUri}&scope=playlist-modify-public`;
     window.location = url;
@@ -33,8 +32,8 @@ const Spotify = {
     try {
       const response = await fetch(getProfileEndpoint, {
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       if (!response.ok) {
@@ -49,21 +48,23 @@ const Spotify = {
 
   async search(query, token) {
     let queryString = `?q=${query}`;
-    let searchType = 'track';
+    let searchType = "track";
     let url = `${searchEndpoint}${queryString}&type=${searchType}&market=FR`;
 
     try {
       const response = await fetch(url, {
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
 
-      if (!response.ok) {
-        throw new Error(`Erreur HTTP : ${response.status}`);
+      if (response.ok) {
+        const json = await response.json();
+        return json;
+      } else {
+        const body = await response.text();
+        throw new Error(`Erreur HTTP : ${response.status} / ${body}`);
       }
-      const json = await response.json();
-      return json;
     } catch (e) {
       console.log("Unable to find results: ", e);
     }
@@ -76,10 +77,10 @@ const Spotify = {
       const response = await fetch(queryString, {
         method: "POST",
         headers: {
-          "Authorization": `Bearer ${token}`,
-          "Content-Type": "application/json"
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({name: playlistName, description: description})
+        body: JSON.stringify({ name: playlistName, description: description }),
       });
 
       if (!response.ok) {
@@ -92,16 +93,16 @@ const Spotify = {
     }
   },
 
-  async savePlaylist(playlistID, uris, token){
+  async savePlaylist(playlistID, uris, token) {
     let queryString = `${addTracksEndpoints}/${playlistID}/tracks`;
     try {
       const response = await fetch(queryString, {
         method: "POST",
         headers: {
-          "Authorization": `Bearer ${token}`,
-          "Content-Type": "application/json"
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({uris})
+        body: JSON.stringify({ uris }),
       });
 
       if (!response.ok) {
@@ -112,7 +113,7 @@ const Spotify = {
     } catch (e) {
       console.log("Unable to add tracks to the playlist: ", e);
     }
-  }
-}
+  },
+};
 
 export default Spotify;
